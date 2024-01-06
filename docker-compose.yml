@@ -2,13 +2,13 @@ version: "3.9"
 
 services:
   app:
-    build: .
+    container_name: cc4e
+    build:
       context: .
       dockerfile: Dockerfile
     environment:
       APP_NAME: cc4e-app
       APP_EXEC: 1
     volumes:
-      - ./include:/app/include
-      - ./src:/app/src
+      - .:/app
     working_dir: /app

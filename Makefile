@@ -1,21 +1,11 @@
-#
-#
-#
 # Makefile template for C code
-#
 # Author: Gustavo Pantuza Coelho Pinto
 # Since: 24.03.2016
-#
-#
-#
-
 
 # Includes the project configurations
 include project.conf
 
-#
 # Validating project variables defined in project.conf
-#
 ifndef PROJECT_NAME
 $(error Missing PROJECT_NAME. Put variables at project.conf file)
 endif
@@ -25,7 +15,6 @@ endif
 ifndef PROJECT_PATH
 $(error Missing PROJECT_PATH. Put variables at project.conf file)
 endif
-
 
 # Gets the Operating system name
 OS := $(shell uname -s)
@@ -45,8 +34,6 @@ BROWN=\$(COLOR_PREFIX)[0;33m
 BLUE=\$(COLOR_PREFIX)[1;34m
 END_COLOR=\$(COLOR_PREFIX)[0m
 
-
-
 # Source code directory structure
 BINDIR := bin
 SRCDIR := src
@@ -54,14 +41,11 @@ LOGDIR := log
 LIBDIR := lib
 TESTDIR := test
 
-
 # Source code file extension
 SRCEXT := c
 
-
 # Defines the C Compiler
 CC := gcc
-
 
 # Defines the language standards for GCC
 STD := -std=gnu99 # See man gcc for more options
@@ -84,22 +68,14 @@ LIBS := # -lm  -I some/path/to/library
 # Test libraries
 TEST_LIBS := -l cmocka -L /usr/lib
 
-
-
 # Tests binary file
 TEST_BINARY := $(BINARY)_test_runner
-
-
 
 # %.o file names
 NAMES := $(notdir $(basename $(wildcard $(SRCDIR)/*.$(SRCEXT))))
 OBJECTS :=$(patsubst %,$(LIBDIR)/%.o,$(NAMES))
 
-
-#
 # COMPILATION RULES
-#
-
 default: all
 
 # Help message
@@ -125,7 +101,6 @@ start:
 	@echo "Then execute it: bin/$(BINARY) --help"
 	@echo "Happy hacking o/"
 
-
 # Rule for link and generate the binary file
 all: $(OBJECTS)
 	@echo -en "$(BROWN)LD $(END_COLOR)";
@@ -133,12 +108,10 @@ all: $(OBJECTS)
 	@echo -en "\n--\nBinary file placed at" \
 			  "$(BROWN)$(BINDIR)/$(BINARY)$(END_COLOR)\n";
 
-
 # Rule for object binaries compilation
 $(LIBDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo -en "$(BROWN)CC $(END_COLOR)";
 	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS) $(LIBS)
-
 
 # Rule for run valgrind tool
 valgrind:
@@ -150,7 +123,6 @@ valgrind:
 		$(BINDIR)/$(BINARY)
 	@echo -en "\nCheck the log file: $(LOGDIR)/$@.log\n"
 
-
 # Compile tests and run the test binary
 tests:
 	@echo -en "$(BROWN)CC $(END_COLOR)";
@@ -158,7 +130,6 @@ tests:
 	@which ldconfig && ldconfig -C /tmp/ld.so.cache || true # caching the library linking
 	@echo -en "$(BROWN) Running tests: $(END_COLOR)";
 	./$(BINDIR)/$(TEST_BINARY)
-
 
 # Rule for cleaning the project
 clean:
