@@ -1,22 +1,22 @@
-# GCC Autograder Docker image
+# syntax=docker/dockerfile:1.6
 
-# docker build . --tag alpine_gcc
-# cat hello.sh | docker run --network none --rm -i alpine_gcc:latest "-"
+FROM alpine:3.19
 
-# To redo
-# docker container prune
-# docker image rm alpine_gcc:latest
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache \
+        alpine-sdk \
+        build-base \
+        ccache \
+        clang \
+        clang-dev \
+        cmake \
+        cpulimit \
+        dpkg \
+        python3
 
-# https://hub.docker.com/_/alpine
+WORKDIR /app
 
-FROM alpine
-
-# https://wiki.alpinelinux.org/wiki/GCC  (build-base)
-RUN apk add --no-cache build-base cpulimit
-
-ENTRYPOINT ["/bin/ash"]
-
-# Define default command.  (Should never get here)
-CMD ["/bin/ash"]
-
-
+# CMD ["sleep", "infinity"]
+# CMD ["/bin/ash"]
+CMD ["entrypoint.sh"]

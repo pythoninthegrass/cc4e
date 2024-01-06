@@ -1,0 +1,9 @@
+.cache
+.devcontainer
+.git
+.gitignore
+.tool-versions
+.venv
+.vscode
+Dockerfile*
+README.md
